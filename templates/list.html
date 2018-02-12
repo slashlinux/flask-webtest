@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+   <body>
+   
+      <table border = 1>
+         <thead>
+	    <td><b>ID</b></td>
+            <td><b>Name</b></td>
+            <td><b>Address</b></td>
+            <td><b>City</b></td>
+            <td><b>Pincode</b></td>
+	    <td><b>Delete</b></td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+		<td>{{row["id"]}}</td>
+               <td>{{row["name"]}}</td>
+               <td>{{row["addr"]}}</td>
+               <td> {{row["city"]}}</td>
+               <td>{{row["pin"]}}</td>	
+<td>
+
+
+<a href="{{ url_for('delete_entry', entry_id=row['id'] )}}">Delete</a>
+
+
+</td>
+
+
+{% endfor %}
+
+      </table>
+   
+      <br />
+      <h3><a href = "/student">add data</a></h2>
+
+      <br />      
+      <a href = "/">Go back to home page</a>
+      
+   </body>
+</html>
