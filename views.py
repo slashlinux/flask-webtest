@@ -42,7 +42,6 @@ def do_admin_login():
 def addrec():
    if request.method == 'POST':
       try:
-	 id = request.form['id']
          nm = request.form['nm']
          addr = request.form['add']
          city = request.form['city']
@@ -50,7 +49,7 @@ def addrec():
          
          with sql.connect("database.db") as con:
             cur = con.cursor()
-            cur.execute("INSERT INTO students (id, name,addr,city,pin) VALUES (?,?,?,?,?)",(id,nm,addr,city,pin) )
+            cur.execute("INSERT INTO students (name,addr,city,pin) VALUES (?,?,?,?)",(nm,addr,city,pin) )
             
             con.commit()
             msg = "Record successfully added"
@@ -85,18 +84,44 @@ def list():
 
 
 
-@app.route('/delete/<int:entry_id>')
-def delete_entry(entry_id):
+@app.route('/delete/<int:delete_id>')
+def delete_entry(delete_id):
    con = sql.connect("database.db")
    con.row_factory = sql.Row
    cur = con.cursor()
-   entry_id=int(entry_id)
-   cur.execute("delete from students where id=?", (entry_id,))
+   delete_id=int(delete_id)
+   cur.execute("delete from students where id=?", (delete_id,))
    con.commit()
-#   rows = cur.fetchone();
    return redirect("http://194.135.89.2:4000/list")
    
 
+
+@app.route('/edit/<int:edit_id>')
+def edit_entry(edit_id):
+   con = sql.connect("database.db")
+   con.row_factory = sql.Row
+   cur = con.cursor()
+   edit_id=int(edit_id)
+   cur.execute("select * from students where id=?", (edit_id,))
+   #con.commit()
+
+   rows = cur.fetchall();
+   return render_template("edit.html",rows = rows)
+
+
+@app.route('/update/<int:update_id>' , methods=['GET', 'POST'])
+def update_entry(update_id):
+   
+   con = sql.connect("database.db")
+   con.row_factory = sql.Row
+   cur = con.cursor()
+
+   update_id=int(update_id)
+
+   cur.execute("update students set name=?, addr=?, city=?, pin=? where id=?", (name,addr,city,pin,update_id,))
+   con.commit()
+
+   return redirect("http://194.135.89.2:4000/list")
 
 
 @app.route('/student')
