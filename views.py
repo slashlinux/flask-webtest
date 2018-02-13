@@ -63,11 +63,6 @@ def addrec():
 
 
 
-
-
-
-
-
 @app.route('/list')
 def list():
    con = sql.connect("database.db")
@@ -109,18 +104,24 @@ def edit_entry(edit_id):
    return render_template("edit.html",rows = rows)
 
 
-@app.route('/update/<int:update_id>' , methods=['GET', 'POST'])
+@app.route('/update/<int:update_id>',  methods=['POST'])
 def update_entry(update_id):
    
+   nm = request.form['nm']
+   addr = request.form['add']
+   city = request.form['city']
+   pin = request.form['pin']
+   
+
    con = sql.connect("database.db")
    con.row_factory = sql.Row
    cur = con.cursor()
 
    update_id=int(update_id)
 
-   cur.execute("update students set name=?, addr=?, city=?, pin=? where id=?", (name,addr,city,pin,update_id,))
+   cur.execute("update students set name=?, addr=?, city=?, pin=? where id=?", (nm, addr, city, pin, update_id,))
    con.commit()
-
+   rows = cur.fetchall();
    return redirect("http://194.135.89.2:4000/list")
 
 
