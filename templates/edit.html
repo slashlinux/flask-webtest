@@ -2,34 +2,22 @@
 <html>
    <body>
    
-      <table border = 1>
-         <thead>
-	    <td><b>ID</b></td>
-            <td><b>Name</b></td>
-            <td><b>Address</b></td>
-            <td><b>City</b></td>
-            <td><b>Pincode</b></td>
-	    <td><b>Update</b></td>
-	    
- </thead>
+
          
          {% for row in rows %}
-            <tr>
-		<td> <textarea> {{row["id"]}} </textarea> </td>
-               <td> <textarea> {{row["name"]}}  </textarea> </td>
-               <td> <textarea> {{row["addr"]}}  </textarea> </td>
-               <td> <textarea> {{row["city"]}} </textarea> </td>
-               <td> <textarea> {{row["pin"]}}   </textarea> </td>	
-<td>
-
-
-<a href="{{ url_for('update_entry', update_id=row['id'] )}}">Update</a>
-</td>
-
+           
+              <form action="{{ url_for('update_entry', update_id=row['id']) }}" method="post">  
+              <td><b>ID</b></td> <br><td><input type = "text"  name="update_id" value="{{row["id"]}}" /></td><br><br> 
+              <td><b>Name</b></td> <br><td><input type = "text" name="nm" value="{{row["name"]}}"  /></td><br> <br>
+              <td><b>Address</b></td> <br><td><input type = "text" name="add" value="{{row["addr"]}}" /></td><br><br>
+              <td><b>City</b></td> <br><td><input type = "text" name="city" value="{{row["city"]}}" /></td><br><br>
+              <td><b>Pin</b></td> <br><td><input type = "text" name="pin" value="{{row["pin"]}}"   /> </td><br><br>
+               <input type="Submit" value="Update">
+	     
 {% endfor %}
 
-      </table>
-   
+    
+
       <br />
       <h3><a href = "/student">add data</a></h2>
 
